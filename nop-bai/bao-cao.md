@@ -13,35 +13,25 @@ HƯỚNG DẪN - đọc rồi XÓA TOÀN BỘ các khối chú thích này sau k
 
 | | |
 |---|---|
-| Họ và tên | ___ |
-| MSSV | ___ |
+| Họ và tên | Trần Đăng Nguyên |
+| MSSV | 2A202601798 |
 | Lớp / Khóa | K4 |
-| Repo GitHub | https://github.com/___/___ |
-| Ngày nộp | ___ |
+| Repo GitHub | https://github.com/nguyendangtran2110-bit/Track2_Day21_2A202601798_TranDangNguyen |
+| Ngày nộp | 21/08/2026 |
 
 ---
 
 ## 1. Bộ Siêu Tham Số Đã Chọn và Lý Do
 
-<!-- Khoảng 120 - 150 từ. Điền kết quả thật từ MLflow UI ở Bước 1, tối thiểu 3 lần chạy. -->
-
 | Lần chạy | n_estimators | learning_rate | max_depth | f1_score | accuracy |
 |---|---|---|---|---|---|
-| 1 | ___ | ___ | ___ | ___ | ___ |
-| 2 | ___ | ___ | ___ | ___ | ___ |
-| 3 | ___ | ___ | ___ | ___ | ___ |
+| 1 | 100 | 0.1 | 3 | 0.7109 | 0.8780 |
+| 2 | 50 | 0.05 | 2 | 0.6051 | 0.8460 |
+| 3 | 200 | 0.1 | 5 | 0.7149 | 0.8740 |
 
-**Bộ siêu tham số đã chọn:** `n_estimators=___`, `learning_rate=___`, `max_depth=___`.
+**Bộ siêu tham số đã chọn:** `n_estimators=200`, `learning_rate=0.1`, `max_depth=5`.
 
-**Lý do:** ___
-
-<!--
-Trả lời trong phần Lý do:
-  - Vì sao bộ này tốt hơn các bộ còn lại (dựa trên f1_score, không phải accuracy)?
-  - Lần chạy có accuracy cao nhất có trùng với lần có f1_score cao nhất không?
-    Nếu không, điều đó nói lên điều gì?
-  - Bạn quan sát thấy đánh đổi nào giữa n_estimators và learning_rate?
--->
+**Lý do:** Bộ siêu tham số ở lần chạy 3 được lựa chọn vì đạt chỉ số `f1_score` cao nhất (0.7149), vượt qua ngưỡng chất lượng 0.65 để kích hoạt pipeline triển khai. Lần chạy 2 (`n_estimators=50`, `learning_rate=0.05`, `max_depth=2`) bị underfitting với F1 chỉ đạt 0.6051 do cây quá nông và số vòng boosting chưa đủ bù cho tốc độ học nhỏ. Đáng chú ý, lần chạy 1 có `accuracy` cao nhất (0.8780) nhưng `f1_score` (0.7109) lại thấp hơn lần chạy 3. Điều này phản ánh rõ bài toán mất cân bằng lớp: accuracy bị kéo lên cao bởi việc đoán đúng lớp đa số (thu nhập thấp), trong khi F1 phản ánh chính xác khả năng nhận diện lớp thiểu số quan trọng (thu nhập > 50K). Khi giảm `learning_rate`, ta bắt buộc phải tăng `n_estimators` và tăng `max_depth` để mô hình học được ranh giới phân loại phức tạp.
 
 ---
 
